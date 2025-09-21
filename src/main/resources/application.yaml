@@ -1,0 +1,52 @@
+spring:
+  application:
+    name: SpringAI_Research
+
+#  ai:
+#    ollama:
+#      base-url: http://localhost:11431
+#      chat:
+#        model: "gemma3:4b-it-q4_K_M"
+
+  ai:
+    mistralai:
+      chat:
+        options:
+          model: "mistral-small-latest"
+      api-key: "WAMBp9I3XceST9ZgvBqaFZpw7QEuE2Kf"
+
+    vectorstore:
+      pgvector:
+        index-type: HNSW
+        dimensions: 1024
+
+  datasource:
+    url: "jdbc:postgresql://localhost:5435/aidb"
+    username: "postgres"
+    password: "postgres"
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+logging:
+  level:
+    org.springframework.ai.chat.client.advisor: DEBUG
+
+app:
+  maxMessages: 10 #Количество сообщений читаемых в истории AIMessages из всей истории для контекста AI
+  chunkSize: 500 #размер чанков на который разрезан документ
+  document-path: "classpath:/ragdocument/**/*.txt"
+rag:
+  advisor:
+    top-k: 40
+    similarity-threshold: 0.8
+    max-context-chars: 10000
+expansion:
+  advisor:
+    temperature: 0.1
+    top-p: 0.2
